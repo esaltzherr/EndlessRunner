@@ -6,5 +6,3 @@ This is a group project to make an endless runner for UCSC's classes ARTG120 and
 Code by: Elroy Saltzherr, Mason Kubiak
 Art by: Ethan Goldreyer
 
-
-// This is a comment to test branches
