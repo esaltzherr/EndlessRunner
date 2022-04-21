@@ -4,17 +4,26 @@ class Play extends Phaser.Scene{
     }
     preload(){
         // load images/sprites
+        
+        //loads the each letter
+        var base = 'letter'
+        var total;
+        for(i = 0;i< 26; i++){
+            total = base + String.fromCharCode(65+i);
+            this.load.image(total, './assets/'+total+'.png')
+        }
 
-        this.load.image('letterA','./assets/letterA.png');
+        
         this.load.image('paper','./assets/paper.png');
         this.load.image('ground_temp', './assets/ground_temp.png');
         this.load.image('player_temp', './assets/player_sprite.gif');
     }
 
     create(){
-        this.backround = this.add.tileSprite(-100, -50, 0, 0, 'paper').setOrigin(0, 0);
+        this.backround = this.add.tileSprite(-100, -100, 0, 0, 'paper').setOrigin(0, 0);
+        this.letterspawner = new Letterspawner(this, 900, 0).setOrigin(0,0);
 
-        this.letterspawner = new Letterspawner(this, 100, 100, 'letterA', 0).setOrigin(0,0);
+
 
         // add keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
