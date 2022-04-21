@@ -16,14 +16,13 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
         this.speed = -100;
         this.randomletter();
         this.setVelocity(this.speed,0);
-        this.body.collideWorldBounds = true;
         
         
     }
     init(){
         // initalize after getting added to group
         this.setVelocity(this.speed,0);
-        this.body.collideWorldBounds = true;
+        
 
     }
     randomletter(){
