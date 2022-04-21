@@ -22,4 +22,12 @@ class Eraser extends Phaser.Physics.Arcade.Sprite{
         //console.log(this.speed);
     }
     
+    gameOver() {
+        // move back as to not constantly trigger gameOver() in Play
+        this.x -= 1
+
+        // stop eraser completely
+        this.speed = 0;
+        this.setVelocity(0, 0);
+    }
 }

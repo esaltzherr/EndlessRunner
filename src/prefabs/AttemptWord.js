@@ -27,7 +27,8 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
         if (keyPressed == "enter") {
             if (this.checklist(this.player.word)) {
                 this.scene.sendback(this.player.word.length * this.player.word.length * 2);
-                this.player.word = ''
+                this.player.word = '';
+                this.player.score += this.player.word.length;
                 // Correct Noise
                 // Success Animation?
             }

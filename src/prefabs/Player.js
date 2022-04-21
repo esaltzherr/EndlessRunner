@@ -12,6 +12,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         // String the Player has
         this.word = '';
+
+        this.score = 0;
     }
 
     update() {
@@ -27,5 +29,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     jump() {
         this.body.setVelocityY(this.jumpHeight * -1);
+    }
+
+    gameOver() {
+        // erase word (might put this in reset later on)
+        this.word = '';
     }
 }

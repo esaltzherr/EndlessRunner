@@ -29,4 +29,9 @@ class Letterspawner extends Phaser.Physics.Arcade.Sprite{
             letter.init();
         }
     }
+
+    gameOver() {
+        // clear letter group to get rid of any letters left on screen
+        this.lettersGroup.clear(1, 1);
+    }
 }

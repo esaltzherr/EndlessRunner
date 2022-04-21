@@ -13,7 +13,7 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
         super(scene, x, y);
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.speed = -100;
+        this.speed = -200;
         this.randomletter();
         this.setVelocity(this.speed,0);
         
