@@ -4,6 +4,7 @@ for(i = 0; i < 26; i++){
     letterList.push(String.fromCharCode(65+i));
 }
 let total = 0;
+// list of chances for each number to be spawned
 var chances = [total = 8.087, total += 1.493, total += 2.781, total += 4.253, total += 12.702, total +=2.228, total += 2.015, total += 6.094, total += 6.966,total +=0.153, total += 0.772,total +=4.094,total +=2.587,total += 6.749,total +=7.507, total += 1.929, total +=0.096,total +=5.987, total += 6.234 ,total += 9.056, total += 2.758,total += 0.978, total +=2.360,total +=0.150,total +=1.974,total +=0.074];
 
 
@@ -20,6 +21,7 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
         
     }
     init(){
+        // initalize after getting added to group
         this.setVelocity(this.speed,0);
         this.body.collideWorldBounds = true;
 
@@ -34,6 +36,9 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
                 this.setTexture('letter' + letterList[i]);
                 return;
             }
+        }
+        if(this.letter == undefined){
+            this.randomletter();
         }
     }
     // generates a random float within the range min and max, including both up to .

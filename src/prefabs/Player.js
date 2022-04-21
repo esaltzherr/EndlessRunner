@@ -5,9 +5,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
 
         // physics settings
+        this.setPushable(false);
         this.body.setGravityY(gravity);
         this.jumpHeight = jumpHeight;
         this.jumping = false;
+
+        // String the Player has
+        this.word = '';
     }
 
     update() {
