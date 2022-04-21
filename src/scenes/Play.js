@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
         //loads the each letter, if adding letters change the 2nd perameter with how many currently exist
         var base = 'letter'
         var total;
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < 26; i++) {
             total = base + String.fromCharCode(65 + i);
             this.load.image(total, './assets/' + total + '.png')
         }
@@ -46,16 +46,14 @@ class Play extends Phaser.Scene {
 
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
         this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_temp', 0, 900, 500).setOrigin(0, 0);
+        
         this.physics.add.collider(this.player, this.ground);
+        
+        this.physics.add.overlap(this.player, this.eraser, this.gameOver, null, this);
 
         this.button = new AttemptWord(this, 750, 450, 'button', this.player).setOrigin(0, 0);
 
-        this.physics.add.collider(this.player, this.letterspawner.lettersGroup, function (player, lettersGroup, button) {
-            player.word += lettersGroup.letter;
-            lettersGroup.destroy();
-            // play erase sound effect
-            // sound effect
-        });
+        this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter);
 
     }
 
@@ -66,14 +64,19 @@ class Play extends Phaser.Scene {
         this.button.update();
     }
     sendback(length) {
-        console.log("Move the pencil back");
         this.eraser.speed -= length;
-        console.log(this.eraser.speed);
     }
     listOfWords() {
         let cache = this.cache.text;
         let scrabbleWords = cache.get('scrabble');
         this.arrayWords = scrabbleWords.split('\r\n');
        
+    }
+    gameOver(player, eraser){
+        this.add.text(100, 100, "Game Over", { font: "20px Arial", fill: "#000000" });
+    }
+    addLetter(player, lettersGroup){
+        player.word += lettersGroup.letter;
+            lettersGroup.destroy();
     }
 }
