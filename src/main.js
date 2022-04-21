@@ -5,7 +5,7 @@ let config = {
     physics: {
       default: "arcade",
       arcade: {
-        debug: false
+        debug: true
       }
     },
     scene: [ Play ]
@@ -14,4 +14,4 @@ let config = {
   let game = new Phaser.Game(config);
   
   // reserve keyboard vars
-  let keyF, keyR, keyLEFT, keyRIGHT;
+  let keyF, keyR, keyLEFT, keyRIGHT, keySPACE, keyENTER, keyBACK;
