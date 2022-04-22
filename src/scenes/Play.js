@@ -17,7 +17,9 @@ class Play extends Phaser.Scene {
         this.load.image('paper', './assets/paper.png');
         this.load.image('pencil', './assets/pencil.png');
         this.load.image('ground_temp', './assets/ground_temp.png');
-        this.load.image('player_temp', './assets/player_size_ref.png');
+        this.load.spritesheet('player_run', './assets/player_run.png', {frameWidth: 72, frameHeight: 72});
+        this.load.spritesheet('player_jump', './assets/player_jump.png', {frameWidth: 72, frameHeight: 72});
+        this.load.spritesheet('player_fall', './assets/player_fall.png', {frameWidth: 72, frameHeight: 72})
         this.load.image('button', './assets/attemptButton.png');
         this.load.text('scrabble', './assets/scrabble.txt');
 
@@ -41,14 +43,14 @@ class Play extends Phaser.Scene {
         });
 
         // add keys
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        // jump
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);        // confirm word
+        keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);     // erase word
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);                // reset
 
 
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
-        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_temp', 0, 900, 500).setOrigin(0, 0);
+        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 900, 500).setOrigin(0, 0);
         
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.overlap(this.player, this.eraser, this.gameOver, null, this);
