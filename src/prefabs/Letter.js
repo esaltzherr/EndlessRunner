@@ -18,6 +18,12 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
         this.setVelocity(this.speed,0);
         
         
+
+
+
+
+
+
     }
     init(){
         // initalize after getting added to group
@@ -33,6 +39,7 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
             if(randomNum < chances[i]){
                 this.letter = letterList[i];
                 this.setTexture('letter' + letterList[i]);
+                this.play('letter' + letterList[i]);
                 return;
             }
         }

@@ -6,20 +6,21 @@ class Play extends Phaser.Scene {
         // load images/sprites
 
         //loads the each letter, if adding letters change the 2nd perameter with how many currently exist
-        var base = 'letter'
-        var total;
+        var name;
+        var file;
         for (i = 0; i < 26; i++) {
-            total = base + String.fromCharCode(65 + i);
-            this.load.image(total, './assets/' + total + '.png')
+            name = 'letter' + String.fromCharCode(65 + i);
+            file = 'let_' + String.fromCharCode(65 + i).toLowerCase();
+            this.load.spritesheet(name, './assets/' + file + '.png', {frameWidth: 32, frameHeight: 32});
         }
 
 
         this.load.image('paper', './assets/paper.png');
         this.load.image('pencil', './assets/pencil.png');
         this.load.image('ground_temp', './assets/ground_temp.png');
-        this.load.spritesheet('player_run', './assets/player_run.png', {frameWidth: 72, frameHeight: 72});
-        this.load.spritesheet('player_jump', './assets/player_jump.png', {frameWidth: 72, frameHeight: 72});
-        this.load.spritesheet('player_fall', './assets/player_fall.png', {frameWidth: 72, frameHeight: 72})
+        this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
+        this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
+        this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 })
         this.load.image('button', './assets/attemptButton.png');
         this.load.text('scrabble', './assets/scrabble.txt');
 
@@ -27,10 +28,10 @@ class Play extends Phaser.Scene {
 
     create() {
         this.gameIsOver = false;
-        
+
         //load all the words
         this.listOfWords();
-        
+
         this.backround = this.add.tileSprite(-100, -100, 0, 0, 'paper').setOrigin(0, 0);
         this.letterspawner = new Letterspawner(this, 900, 200).setOrigin(0, 0);
         this.letterspawner.lettersGroup;
@@ -51,7 +52,7 @@ class Play extends Phaser.Scene {
         // add ground and player
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
         this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 900, 500).setOrigin(0, 0);
-        
+
         // add colliders
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.overlap(this.player, this.eraser, this.gameOver, null, this);
@@ -73,10 +74,26 @@ class Play extends Phaser.Scene {
         this.scoreboard = this.add.text(game.config.width - 150, 100, this.player.score, scoreConfig);
 
         this.button = new AttemptWord(this, 750, 450, 'button', this.player, this.scoreboard).setOrigin(0, 0);
+
+        for (i = 0; i < 26; i++) {
+            this.anims.create({
+                key: 'letter' + String.fromCharCode(65 + i),
+                frames: this.anims.generateFrameNumbers('letter' + String.fromCharCode(65 + i), { frames: [0, 1] }),
+                duration: 100,
+                repeat: -1,
+
+            });
+        }
+
+
+
+
+
+
     }
 
     update() {
-        if(!this.gameIsOver) {
+        if (!this.gameIsOver) {
             this.letterspawner.update();
             this.player.update();
             this.eraser.update();
@@ -94,7 +111,7 @@ class Play extends Phaser.Scene {
         this.arrayWords = scrabbleWords.split('\r\n');
     }
 
-    gameOver(player, eraser){
+    gameOver(player, eraser) {
         // pause screen
         this.gameIsOver = true;
         this.letterspawner.gameOver();
@@ -104,7 +121,7 @@ class Play extends Phaser.Scene {
         keyENTER.on('down', (key, event) => { this.scene.restart(); });
     }
 
-    addLetter(player, lettersGroup){
+    addLetter(player, lettersGroup) {
         player.word += lettersGroup.letter;
         lettersGroup.destroy();
     }
