@@ -17,7 +17,9 @@ class Play extends Phaser.Scene {
         this.load.image('paper', './assets/paper.png');
         this.load.image('pencil', './assets/pencil.png');
         this.load.image('ground_temp', './assets/ground_temp.png');
-        this.load.image('player_temp', './assets/player_size_ref.png');
+        this.load.spritesheet('player_run', './assets/player_run.png', {frameWidth: 72, frameHeight: 72});
+        this.load.spritesheet('player_jump', './assets/player_jump.png', {frameWidth: 72, frameHeight: 72});
+        this.load.spritesheet('player_fall', './assets/player_fall.png', {frameWidth: 72, frameHeight: 72})
         this.load.image('button', './assets/attemptButton.png');
         this.load.text('scrabble', './assets/scrabble.txt');
 
@@ -41,21 +43,36 @@ class Play extends Phaser.Scene {
         });
 
         // add keys
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);
-        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        // jump
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);        // confirm word
+        keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);     // erase word
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);                // reset
 
-
+        // add ground and player
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
-        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_temp', 0, 900, 500).setOrigin(0, 0);
+        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 900, 500).setOrigin(0, 0);
         
+        // add colliders
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.overlap(this.player, this.eraser, this.gameOver, null, this);
-
-        this.button = new AttemptWord(this, 750, 450, 'button', this.player).setOrigin(0, 0);
-
         this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter);
+
+        // scoreboard (maybe a texture later?)
+        let scoreConfig = {
+            fontFamily: "Courier",
+            fontSize: "28px",
+            backgroundColor: "#F3B141",
+            color: "#843605",
+            align: "right",
+            padding: {
+                top: 5,
+                bottom: 5
+            },
+            fixedWidth: 100
+        };
+        this.scoreboard = this.add.text(game.config.width - 150, 100, this.player.score, scoreConfig);
+
+        this.button = new AttemptWord(this, 750, 450, 'button', this.player, this.scoreboard).setOrigin(0, 0);
     }
 
     update() {
@@ -84,6 +101,7 @@ class Play extends Phaser.Scene {
         this.player.gameOver();
         this.eraser.gameOver();
         this.add.text(100, 100, "Game Over", { font: "20px Arial", fill: "#000000" });
+        keyENTER.on('down', (key, event) => { this.scene.restart(); });
     }
 
     addLetter(player, lettersGroup){
