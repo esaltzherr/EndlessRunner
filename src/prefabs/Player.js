@@ -10,10 +10,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.jumpHeight = jumpHeight;
         this.jumping = false;
 
-        // String the Player has
+        // Player word and score
         this.word = '';
-
         this.score = 0;
+
+        // Player animations
+        scene.anims.create({
+            key: 'running',
+            frame: 'player_run',
+            frameRate: 30,
+        });
+        this.anims.play('running')
     }
 
     update() {
