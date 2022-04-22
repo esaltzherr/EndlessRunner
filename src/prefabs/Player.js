@@ -72,5 +72,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     gameOver() {
         // erase word (might put this in reset later on)
         this.word = '';
+        this.anims.pause();
     }
 }
