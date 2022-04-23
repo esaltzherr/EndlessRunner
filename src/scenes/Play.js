@@ -19,7 +19,8 @@ class Play extends Phaser.Scene {
         this.load.image('ground_temp', './assets/ground_temp.png');
         this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
-        this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 })
+        this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 });
+        this.load.spritesheet('player_fall_squash', './assets/player_fall_squash.png', { frameWidth: 72, frameHeight: 72 });
         this.load.image('button', './assets/attemptButton.png');
         this.load.text('scrabble', './assets/scrabble.txt');
 
@@ -90,7 +91,6 @@ class Play extends Phaser.Scene {
             this.player.update();
             this.eraser.update();
             this.button.update();
-            //console.log("TEST");
         }
     }
 

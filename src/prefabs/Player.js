@@ -8,7 +8,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setPushable(false);
         this.body.setGravityY(gravity);
         this.jumpHeight = jumpHeight;
-        this.jumping = false;
         this.justFell = false;
 
         // Player word and score
@@ -35,36 +34,33 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             frameRate: 10
         });
 
-        // ANOTHER SPRITE/ANIM AS HE HITS THE GROUND
+        this.anims.create({
+            key: 'falling_squash',
+            frames: this.anims.generateFrameNumbers('player_fall_squash', {frames: [0]}),
+            frameRate: 30,
+            repeat: 1
+        });
     }
 
     update() {
         // if jump key pressed and not already jumping, jump
-        if(Phaser.Input.Keyboard.JustDown(keySPACE) && !this.jumping) {
+        if(Phaser.Input.Keyboard.JustDown(keySPACE) && this.body.velocity.y == 0) {
             this.jump();
         }
 
         // ensure jumping only happens when touching collider
-        if(this.body.velocity.y == 0) { //keySPACE.isUp && this.body.touching.down
-            this.jumping = false;
-            this.anims.play('running', true);
-
-            /*
+        if(this.body.velocity.y == 0) {
             // determine whether to play running or falling animation
             if(!this.justFell) { 
                 this.anims.play('running', true); 
             }
             else {
-                console.log('yo')
-                this.fall();
+                this.anims.play('falling_squash', true);
+                this.once('animationcomplete', () => { this.justFell = false; })
             }
-            */
         }
         else if(this.body.velocity.y > 0) {
-            this.fall();
-        }
-        else {
-            this.jumping = true; 
+            this.anims.play('falling', true);
         }
     }
 
@@ -72,11 +68,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setVelocityY(this.jumpHeight * -1);
         this.justFell = true;
         this.anims.play('jumping', true);
-    }
-
-    fall() {
-        this.anims.play('falling', true)
-        this.once('animationcomplete', () => { this.justFell = false; })
     }
 
     gameOver() {
