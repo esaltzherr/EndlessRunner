@@ -10,6 +10,7 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
         this.scoreboard = scoreboard
         this.scene.add.text(490, 500, "Press Enter To Submit Word", { font: "20px Arial", fill: "#000000" });
         this.word = this.scene.add.text(200, 500, "-", { font: "40px Arial", fill: "#ff0044" });
+        console.log(this.scene.arrayWords);
     }
 
     update() {
