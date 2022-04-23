@@ -90,6 +90,7 @@ class Play extends Phaser.Scene {
             this.player.update();
             this.eraser.update();
             this.button.update();
+            console.log("TEST");
         }
     }
 
@@ -110,7 +111,7 @@ class Play extends Phaser.Scene {
         this.player.gameOver();
         this.eraser.gameOver();
         this.add.text(100, 100, "Game Over", { font: "20px Arial", fill: "#000000" });
-        keyENTER.on('down', (key, event) => { this.scene.restart(); });
+        keyR.on('down', (key, event) => { this.scene.restart(); });
     }
 
     addLetter(player, lettersGroup) {
