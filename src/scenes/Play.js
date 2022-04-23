@@ -14,7 +14,6 @@ class Play extends Phaser.Scene {
             this.load.spritesheet(name, './assets/' + file + '.png', {frameWidth: 32, frameHeight: 32});
         }
 
-
         this.load.image('paper', './assets/paper.png');
         this.load.image('pencil', './assets/pencil.png');
         this.load.image('ground_temp', './assets/ground_temp.png');
@@ -81,15 +80,8 @@ class Play extends Phaser.Scene {
                 frames: this.anims.generateFrameNumbers('letter' + String.fromCharCode(65 + i), { frames: [0, 1] }),
                 duration: 100,
                 repeat: -1,
-
             });
         }
-
-
-
-
-
-
     }
 
     update() {
