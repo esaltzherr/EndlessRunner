@@ -30,10 +30,12 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
                 this.player.score += this.player.word.length;
                 this.player.word = '';
                 this.scoreboard.text = this.player.score
+                console.log('test2');
                 // Correct Noise
                 // Success Animation?
             }
             else {
+                console.log('test3');
                 // failure Noise / shake letters
             }
         }
