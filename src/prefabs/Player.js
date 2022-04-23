@@ -20,6 +20,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             key: 'running',
             frames: this.anims.generateFrameNumbers('player_run', {frames: [0, 1, 2, 3, 4, 5, 6, 7]}),
             repeat: -1,
+            frameRate: 15
         });
 
         this.anims.create({
@@ -31,8 +32,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.create({
             key: 'falling',
             frames: this.anims.generateFrameNumbers('player_jump', {frames: [0, 1, 2]}),
-            frameRate: 16
+            frameRate: 16   // EDIT FRAMES TO MAYBE 10 FPS
         });
+
+        // ANOTHER SPRITE AS HE HITS THE GROUND
     }
 
     update() {
@@ -50,6 +53,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.anims.play('running', true); 
             }
             else {
+                /*
+                *  MAKE FALLING HAPPEN ON LOOP WHEN FALLING BACK DOWN
+                */
                 this.fall();
             }
         }
