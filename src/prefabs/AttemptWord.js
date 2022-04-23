@@ -10,7 +10,7 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
         this.scoreboard = scoreboard
         this.scene.add.text(490, 500, "Press Enter To Submit Word", { font: "20px Arial", fill: "#000000" });
         this.word = this.scene.add.text(200, 500, "-", { font: "40px Arial", fill: "#ff0044" });
-        console.log(this.scene.arrayWords);
+        
     }
 
     update() {
@@ -25,7 +25,7 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
     }
     submitWord(keyPressed) {
         if (keyPressed == "enter") {
-            console.log('test');
+            console.log(this.scene.arrayWords);
             if (this.checklist(this.player.word)) {
                 this.scene.sendback(this.player.word.length * this.player.word.length * 2);
                 this.player.score += this.player.word.length;
