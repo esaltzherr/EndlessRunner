@@ -78,7 +78,7 @@ class Play extends Phaser.Scene {
             this.anims.create({
                 key: 'letter' + String.fromCharCode(65 + i),
                 frames: this.anims.generateFrameNumbers('letter' + String.fromCharCode(65 + i), { frames: [0, 1] }),
-                duration: 100,
+                frameRate: 8,
                 repeat: -1,
             });
         }
@@ -90,6 +90,7 @@ class Play extends Phaser.Scene {
             this.player.update();
             this.eraser.update();
             this.button.update();
+            //console.log("TEST");
         }
     }
 
@@ -109,8 +110,8 @@ class Play extends Phaser.Scene {
         this.letterspawner.gameOver();
         this.player.gameOver();
         this.eraser.gameOver();
-        this.add.text(100, 100, "Game Over", { font: "20px Arial", fill: "#000000" });
-        keyENTER.on('down', (key, event) => { this.scene.restart(); });
+        this.add.text(100, 100, "Game Over (Press R to reset)", { font: "20px Arial", fill: "#000000" });
+        keyR.on('down', (key, event) => { this.scene.restart(); });
     }
 
     addLetter(player, lettersGroup) {

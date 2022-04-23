@@ -26,16 +26,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.create({
             key: 'jumping',
             frames: this.anims.generateFrameNumbers('player_jump', {frames: [0, 1, 2, 3, 4]}),
-            frameRate: 12
+            frameRate: 12,
         });
 
         this.anims.create({
             key: 'falling',
-            frames: this.anims.generateFrameNumbers('player_jump', {frames: [0, 1, 2]}),
-            frameRate: 16   // EDIT FRAMES TO MAYBE 10 FPS
+            frames: this.anims.generateFrameNumbers('player_fall', {frames: [0, 1]}),
+            frameRate: 10
         });
 
-        // ANOTHER SPRITE AS HE HITS THE GROUND
+        // ANOTHER SPRITE/ANIM AS HE HITS THE GROUND
     }
 
     update() {
@@ -45,19 +45,23 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         // ensure jumping only happens when touching collider
-        if(keySPACE.isUp && this.body.touching.down) { 
+        if(this.body.velocity.y == 0) { //keySPACE.isUp && this.body.touching.down
             this.jumping = false;
+            this.anims.play('running', true);
 
+            /*
             // determine whether to play running or falling animation
             if(!this.justFell) { 
                 this.anims.play('running', true); 
             }
             else {
-                /*
-                *  MAKE FALLING HAPPEN ON LOOP WHEN FALLING BACK DOWN
-                */
+                console.log('yo')
                 this.fall();
             }
+            */
+        }
+        else if(this.body.velocity.y > 0) {
+            this.fall();
         }
         else {
             this.jumping = true; 
