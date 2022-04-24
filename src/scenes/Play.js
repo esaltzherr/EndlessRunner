@@ -14,13 +14,13 @@ class Play extends Phaser.Scene {
             this.load.spritesheet(name, './assets/' + file + '.png', {frameWidth: 32, frameHeight: 32});
         }
 
-
         this.load.image('paper', './assets/paper.png');
         this.load.image('pencil', './assets/pencil.png');
         this.load.image('ground_temp', './assets/ground_temp.png');
         this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
-        this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 })
+        this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 });
+        this.load.spritesheet('player_fall_squash', './assets/player_fall_squash.png', { frameWidth: 72, frameHeight: 72 });
         this.load.image('button', './assets/attemptButton.png');
         this.load.text('scrabble', './assets/scrabble.txt');
 
@@ -79,17 +79,10 @@ class Play extends Phaser.Scene {
             this.anims.create({
                 key: 'letter' + String.fromCharCode(65 + i),
                 frames: this.anims.generateFrameNumbers('letter' + String.fromCharCode(65 + i), { frames: [0, 1] }),
-                duration: 100,
+                frameRate: 8,
                 repeat: -1,
-
             });
         }
-
-
-
-
-
-
     }
 
     update() {
@@ -117,8 +110,8 @@ class Play extends Phaser.Scene {
         this.letterspawner.gameOver();
         this.player.gameOver();
         this.eraser.gameOver();
-        this.add.text(100, 100, "Game Over", { font: "20px Arial", fill: "#000000" });
-        keyENTER.on('down', (key, event) => { this.scene.restart(); });
+        this.add.text(100, 100, "Game Over (Press R to reset)", { font: "20px Arial", fill: "#000000" });
+        keyR.on('down', (key, event) => { this.scene.restart(); });
     }
 
     addLetter(player, lettersGroup) {

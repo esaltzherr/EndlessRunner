@@ -8,7 +8,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setPushable(false);
         this.body.setGravityY(gravity);
         this.jumpHeight = jumpHeight;
-        this.jumping = false;
         this.justFell = false;
 
         // Player word and score
@@ -20,41 +19,48 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             key: 'running',
             frames: this.anims.generateFrameNumbers('player_run', {frames: [0, 1, 2, 3, 4, 5, 6, 7]}),
             repeat: -1,
+            frameRate: 15
         });
 
         this.anims.create({
             key: 'jumping',
             frames: this.anims.generateFrameNumbers('player_jump', {frames: [0, 1, 2, 3, 4]}),
-            frameRate: 12
+            frameRate: 12,
         });
 
         this.anims.create({
             key: 'falling',
-            frames: this.anims.generateFrameNumbers('player_jump', {frames: [0, 1, 2]}),
-            frameRate: 16
+            frames: this.anims.generateFrameNumbers('player_fall', {frames: [0, 1]}),
+            frameRate: 10
+        });
+
+        this.anims.create({
+            key: 'falling_squash',
+            frames: this.anims.generateFrameNumbers('player_fall_squash', {frames: [0]}),
+            frameRate: 30,
+            repeat: 1
         });
     }
 
     update() {
         // if jump key pressed and not already jumping, jump
-        if(Phaser.Input.Keyboard.JustDown(keySPACE) && !this.jumping) {
+        if(Phaser.Input.Keyboard.JustDown(keySPACE) && this.body.velocity.y == 0) {
             this.jump();
         }
 
         // ensure jumping only happens when touching collider
-        if(keySPACE.isUp && this.body.touching.down) { 
-            this.jumping = false;
-
+        if(this.body.velocity.y == 0) {
             // determine whether to play running or falling animation
             if(!this.justFell) { 
                 this.anims.play('running', true); 
             }
             else {
-                this.fall();
+                this.anims.play('falling_squash', true);
+                this.once('animationcomplete', () => { this.justFell = false; })
             }
         }
-        else {
-            this.jumping = true; 
+        else if(this.body.velocity.y > 0) {
+            this.anims.play('falling', true);
         }
     }
 
@@ -62,11 +68,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setVelocityY(this.jumpHeight * -1);
         this.justFell = true;
         this.anims.play('jumping', true);
-    }
-
-    fall() {
-        this.anims.play('falling', true)
-        this.once('animationcomplete', () => { this.justFell = false; })
     }
 
     gameOver() {
