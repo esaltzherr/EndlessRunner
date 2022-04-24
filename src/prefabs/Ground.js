@@ -4,5 +4,6 @@ class Ground extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         scene.add.existing(this);
         this.setImmovable(true);
+        this.alpha = 0;
     }
 }

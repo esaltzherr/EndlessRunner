@@ -8,10 +8,10 @@ let config = {
         debug: true
       }
     },
-    scene: [ Play ]
+    scene: [ Menu, Play ]
   }
   
   let game = new Phaser.Game(config);
   
   // reserve keyboard vars
-  let keyF, keyR, keyLEFT, keyRIGHT, keySPACE, keyENTER, keyBACK;
+  let keyF, keyR, keyLEFT, keyRIGHT, keySPACE, keyENTER, keyBACK, keyESC;

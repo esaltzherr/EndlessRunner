@@ -14,8 +14,9 @@ class Play extends Phaser.Scene {
             this.load.spritesheet(name, './assets/' + file + '.png', {frameWidth: 32, frameHeight: 32});
         }
 
-        this.load.image('paper', './assets/paper.png');
-        this.load.image('pencil', './assets/pencil.png');
+        this.load.image('paper', './assets/paperBackground.png');
+        //this.load.image('pencil', './assets/pencil.png');
+        this.load.spritesheet('pencil', './assets/pencil_2.png', { frameWidth: 285, frameHeight: 300, spacing: 105 })
         this.load.image('ground_temp', './assets/ground_temp.png');
         this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
@@ -23,7 +24,6 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('player_fall_squash', './assets/player_fall_squash.png', { frameWidth: 72, frameHeight: 72 });
         this.load.image('button', './assets/attemptButton.png');
         this.load.text('scrabble', './assets/scrabble.txt');
-
     }
 
     create() {
@@ -32,11 +32,12 @@ class Play extends Phaser.Scene {
         //load all the words
         this.listOfWords();
 
-        this.backround = this.add.tileSprite(-100, -100, 0, 0, 'paper').setOrigin(0, 0);
+        this.background = this.add.tileSprite(-100, -35, 0, 0, 'paper').setOrigin(0, 0);
         this.letterspawner = new Letterspawner(this, 900, 200).setOrigin(0, 0);
         this.letterspawner.lettersGroup;
 
-        this.eraser = new Eraser(this, -200, 200, 'pencil').setOrigin(0, 0);
+        //this.eraser = new Eraser(this, -200, 200, 'pencil').setOrigin(0, 0);  // old pencil
+        this.eraser = new Eraser(this, -200, 150, 'pencil').setOrigin(0, 0);
         this.physics.add.collider(this.eraser, this.letterspawner.lettersGroup, function (eraser, lettersGroup) {
             lettersGroup.destroy();
             // play erase sound effect
@@ -48,6 +49,7 @@ class Play extends Phaser.Scene {
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);        // confirm word
         keyBACK = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.BACKSPACE);     // erase word
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);                // reset
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);            // back to menu
 
         // add ground and player
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
@@ -91,6 +93,7 @@ class Play extends Phaser.Scene {
             this.player.update();
             this.eraser.update();
             this.button.update();
+            this.background.tilePositionX += 2;
         }
     }
 
@@ -99,6 +102,7 @@ class Play extends Phaser.Scene {
     }
 
     listOfWords() {
+        // ISSUE ON GITHUB PAGES: DOESN'T SEPARATE BY LINE
         let cache = this.cache.text;
         let scrabbleWords = cache.get('scrabble');
         this.arrayWords = scrabbleWords.split('\r\n');
@@ -110,8 +114,9 @@ class Play extends Phaser.Scene {
         this.letterspawner.gameOver();
         this.player.gameOver();
         this.eraser.gameOver();
-        this.add.text(100, 100, "Game Over (Press R to reset)", { font: "20px Arial", fill: "#000000" });
+        this.add.text(100, 100, "Game Over (Press R to reset | ESC for main menu)", { font: "20px Arial", fill: "#000000" });
         keyR.on('down', (key, event) => { this.scene.restart(); });
+        keyESC.on('down', (key, event) => { this.scene.start('menuscene'); });
     }
 
     addLetter(player, lettersGroup) {
