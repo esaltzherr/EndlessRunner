@@ -109,7 +109,7 @@ class Play extends Phaser.Scene {
         let cache = this.cache.text;
         let scrabbleWords = cache.get('scrabble');
         this.arrayWords = scrabbleWords.split("\n");
-        //console.log(scrabbleWords.split("\n"));
+        //console.log(scrabbleWords.split("\n")); // it didnt update to the pages so re committing to see if it does
         console.log(this.arrayWords);
     }
 
