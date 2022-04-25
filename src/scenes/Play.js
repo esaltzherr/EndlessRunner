@@ -109,6 +109,7 @@ class Play extends Phaser.Scene {
         let cache = this.cache.text;
         let scrabbleWords = cache.get('scrabble');
         this.arrayWords = scrabbleWords.split('\r\n');
+        console.log(this.arrayWords);
     }
 
     gameOver(player, eraser) {
