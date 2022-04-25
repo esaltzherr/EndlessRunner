@@ -33,7 +33,7 @@ class Play extends Phaser.Scene {
         this.listOfWords();
 
         this.background = this.add.tileSprite(-100, -35, 0, 0, 'paper').setOrigin(0, 0);
-        this.letterspawner = new Letterspawner(this, 900, 200).setOrigin(0, 0);
+        this.letterspawner = new Letterspawner(this, 1000, 200).setOrigin(0, 0);
         this.letterspawner.lettersGroup;
 
         //this.eraser = new Eraser(this, -200, 200, 'pencil').setOrigin(0, 0);  // old pencil
@@ -54,10 +54,13 @@ class Play extends Phaser.Scene {
         // add ground and player
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
         this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 900, 500).setOrigin(0, 0);
+        this.endHitBox = this.add.sprite(game.config.width / 2 + 30, game.config.height * 0.6).setOrigin(0,0);
+        this.physics.add.existing(this.endHitBox);
+        
 
         // add colliders
         this.physics.add.collider(this.player, this.ground);
-        this.physics.add.overlap(this.player, this.eraser, this.gameOver, null, this);
+        this.physics.add.overlap(this.endHitBox, this.eraser, this.gameOver, null, this);
         this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter);
 
         // scoreboard (maybe a texture later?)
