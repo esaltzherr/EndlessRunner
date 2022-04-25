@@ -108,7 +108,7 @@ class Play extends Phaser.Scene {
         // ISSUE ON GITHUB PAGES: DOESN'T SEPARATE BY LINE
         let cache = this.cache.text;
         let scrabbleWords = cache.get('scrabble');
-        this.arrayWords = scrabbleWords.split('\r\n');
+        this.arrayWords = scrabbleWords.split('\r\n\n');
         console.log(this.arrayWords);
     }
 
