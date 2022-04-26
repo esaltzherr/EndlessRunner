@@ -25,8 +25,11 @@ class Eraser extends Phaser.Physics.Arcade.Sprite{
         if(this.speed > this.maxspeed){
             this.speed = this.maxspeed;
         }
+        if(this.x + this.width <= 0){
+            this.x = 0 - this.width;
+            this.speed = 0;
+        }
         this.setVelocity(this.speed, 0);
-        //console.log(this.speed);
     }
     
     gameOver() {
