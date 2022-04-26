@@ -108,11 +108,21 @@ class Play extends Phaser.Scene {
         // ISSUE ON GITHUB PAGES: DOESN'T SEPARATE BY LINE
         let cache = this.cache.text;
         let scrabbleWords = cache.get('scrabble');
+        this.arrayWords = scrabbleWords.split("\r\n");
+        if(this.arrayWords.length <= 1){
+            this.arrayWords = scrabbleWords.split("\n");
+        }
+    }
+/*
+    listOfWords() {
+        // ISSUE ON GITHUB PAGES: DOESN'T SEPARATE BY LINE
+        let cache = this.cache.text;
+        let scrabbleWords = cache.get('scrabble');
         this.arrayWords = scrabbleWords.split("\n");
         //console.log(scrabbleWords.split("\n")); // it didnt update to the pages so re committing to see if it does
         console.log(this.arrayWords);
     }
-
+*/
     gameOver(player, eraser) {
         // pause screen
         this.gameIsOver = true;
