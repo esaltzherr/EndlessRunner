@@ -27,6 +27,6 @@ class Dust extends Phaser.Physics.Arcade.Sprite {
             frameRate: rate,
         });
         newDust.anims.play('dust');
-        newDust.on('animationcomplete', () => { newDust.destroy(); })
+        newDust.on('animationcomplete', () => { newDust.destroy(); });
     }
 }

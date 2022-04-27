@@ -24,6 +24,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('player_run_dust', './assets/player_run_dust.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('player_jump_dust', './assets/jump_dust.png', {frameWidth: 64, frameHeight: 64});
         this.load.image('button', './assets/attemptButton.png');
+        this.load.image('score', './assets/score_box.png');
         this.load.text('scrabble', './assets/scrabble.txt');
     }
 
@@ -57,31 +58,32 @@ class Play extends Phaser.Scene {
         this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 1500, 660).setOrigin(0, 0); //900, 500 // 1200, 580
         this.dust = new Dust(this, this.player.x + 15, this.player.y + this.player.height + 30, 'player_run_dust').setOrigin(0, 0);
         this.endHitBox = this.add.sprite(game.config.width / 2 + 30, game.config.height * 0.6).setOrigin(0,0);
-        this.physics.add.existing(this.endHitBox);
-        
+        this.physics.add.existing(this.endHitBox);      
 
         // add colliders
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.overlap(this.endHitBox, this.eraser, this.gameOver, null, this);
         this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter);
 
-        // scoreboard (maybe a texture later?)
+        // scoreboard and attempt word (maybe a texture later?)
         let scoreConfig = {
             fontFamily: "Courier",
-            fontSize: "28px",
-            backgroundColor: "#F3B141",
-            color: "#843605",
+            fontSize: "40px",
+            strokeThickness: 1,
+            stroke: "#000000",
+            color: "#000000",
             align: "right",
             padding: {
-                top: 5,
-                bottom: 5
+                top: 8,
+                bottom: 2,
             },
-            fixedWidth: 100
+            fixedWidth: 187
         };
-        this.scoreboard = this.add.text(game.config.width - 150, 100, this.player.score, scoreConfig);
-
+        this.scoreboard = this.add.text(game.config.width - 200, 90, this.player.score, scoreConfig);
+        this.scorebox = this.add.sprite(this.scoreboard.x + 95, this.scoreboard.y + 25, 'score').setScale(1.5);
         this.button = new AttemptWord(this, 750, 450, 'button', this.player, this.scoreboard).setOrigin(0, 0);
 
+        // create letter anims
         for (i = 0; i < 26; i++) {
             this.anims.create({
                 key: 'letter' + String.fromCharCode(65 + i),
