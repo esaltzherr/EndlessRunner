@@ -10,18 +10,22 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
         this.scoreboard = scoreboard
         this.scene.add.text(490, 500, "Press Enter To Submit Word", { font: "20px Arial", fill: "#000000" });
         this.word = this.scene.add.text(200, 500, "-", { font: "40px Arial", fill: "#ff0044" });
+        this.shakeCam = this.scene.cameras.add(0, 500, 465, 500); // if we get rid of enter text, can leave out width and height
+        this.shakeCam.setBounds(0, 500, 490)
         keyENTER.on('down', (key, event) => { this.submitWord('enter'); });
         keyBACK.on('down', (key, event) => { this.submitWord('back'); });
     }
 
     update() {
-        // if (Phaser.Input.Keyboard.JustDown(keyENTER)) {
-        //     this.submitWord('enter');
+        /*
+        if (Phaser.Input.Keyboard.JustDown(keyENTER)) {
+            this.submitWord('enter');
 
-        // }
-        //if (Phaser.Input.Keyboard.JustDown(keyBACK)) {
-        //    this.submitWord('back');
-        //}
+        }
+        if (Phaser.Input.Keyboard.JustDown(keyBACK)) {
+            this.submitWord('back');
+        }
+        */
         this.word.setText(this.player.word);
     }
     submitWord(keyPressed) {
@@ -37,6 +41,7 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
             }
             else {
                 // failure Noise / shake letters
+                this.shakeCam.shake(100, {x: 0.05, y: 0})
             }
         }
         else if(keyPressed == "back"){
@@ -53,4 +58,10 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
         return false;
     }
 
+    shake() {
+        console.log('shaking');
+        for(let i = -10; i <= 10; ++i) {
+            this.word.x += 5 * Math.sin(i);
+        }
+    }
 }
