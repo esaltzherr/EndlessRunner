@@ -46,6 +46,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // if jump key pressed and not already jumping, jump
         if(Phaser.Input.Keyboard.JustDown(keySPACE) && this.body.velocity.y == 0) {
             this.jump();
+            this.scene.dust.createDust(this.scene.dust.x + 15, this.scene.dust.y - 25, 'player_jump_dust', 15);
         }
 
         // ensure jumping only happens when touching collider
