@@ -16,12 +16,13 @@ class Play extends Phaser.Scene {
 
         this.load.image('paper', './assets/paperBackground.png');
         //this.load.image('pencil', './assets/pencil.png');
-        this.load.spritesheet('pencil', './assets/pencil_2.png', { frameWidth: 285, frameHeight: 300, spacing: 105 })
+        this.load.spritesheet('pencil', './assets/pencil_3.png', { frameWidth: 572, frameHeight: 600, spacing: 212 })
         this.load.image('ground_temp', './assets/ground_temp.png');
         this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_fall_squash', './assets/player_fall_squash.png', { frameWidth: 72, frameHeight: 72 });
+        this.load.spritesheet('player_dust', './assets/player_run_dust.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('button', './assets/attemptButton.png');
         this.load.text('scrabble', './assets/scrabble.txt');
     }
@@ -37,7 +38,7 @@ class Play extends Phaser.Scene {
         this.letterspawner.lettersGroup;
 
         //this.eraser = new Eraser(this, -200, 200, 'pencil').setOrigin(0, 0);  // old pencil
-        this.eraser = new Eraser(this, -200, 150, 'pencil').setOrigin(0, 0);
+        this.eraser = new Eraser(this, -500, -100, 'pencil').setOrigin(0, 0);
         this.physics.add.collider(this.eraser, this.letterspawner.lettersGroup, function (eraser, lettersGroup) {
             lettersGroup.destroy();
             // play erase sound effect
@@ -53,7 +54,8 @@ class Play extends Phaser.Scene {
 
         // add ground and player
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
-        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 900, 500).setOrigin(0, 0);
+        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 1500, 660).setOrigin(0, 0); //900, 500 // 1200, 580
+        this.dust = new Dust(this, this.player.x + 15, this.player.y + this.player.height + 30, 'player_dust').setOrigin(0, 0);
         this.endHitBox = this.add.sprite(game.config.width / 2 + 30, game.config.height * 0.6).setOrigin(0,0);
         this.physics.add.existing(this.endHitBox);
         
@@ -94,9 +96,10 @@ class Play extends Phaser.Scene {
         if (!this.gameIsOver) {
             this.letterspawner.update();
             this.player.update();
+            this.dust.update();
             this.eraser.update();
             this.button.update();
-            this.background.tilePositionX += 2;
+            this.background.tilePositionX += 2.5;
         }
     }
 
