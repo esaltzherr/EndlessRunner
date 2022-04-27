@@ -16,14 +16,6 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
         this.speed = -200;
         this.randomletter();
         this.setVelocity(this.speed,0);
-        
-        
-
-
-
-
-
-
     }
     init(){
         // initalize after getting added to group
