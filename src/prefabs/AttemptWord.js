@@ -5,13 +5,14 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.alreadyAttempted = true;
         this.setScale(0.5);
+        this.alpha = 0;
         this.player = player;
         this.string = player.word;
         this.scoreboard = scoreboard
-        this.scene.add.text(490, 500, "Press Enter To Submit Word", { font: "20px Arial", fill: "#000000" });
+        //this.scene.add.text(490, 500, "Press Enter To Submit Word", { font: "20px Arial", fill: "#000000" });
         this.word = this.scene.add.text(200, 500, "-", { font: "40px Arial", fill: "#ff0044" });
-        this.shakeCam = this.scene.cameras.add(0, 500, 465, 500); // if we get rid of enter text, can leave out width and height
-        this.shakeCam.setBounds(0, 500, 490)
+        this.shakeCam = this.scene.cameras.add(0, 500);
+        this.shakeCam.setBounds(0, 500)
         keyENTER.on('down', (key, event) => { this.submitWord('enter'); });
         keyBACK.on('down', (key, event) => { this.submitWord('back'); });
     }
