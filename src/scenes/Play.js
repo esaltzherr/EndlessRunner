@@ -65,13 +65,13 @@ class Play extends Phaser.Scene {
         this.physics.add.overlap(this.endHitBox, this.eraser, this.gameOver, null, this);
         this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter);
 
-        // scoreboard and attempt word (maybe a texture later?)
+        // scoreboard and attempt word
         let scoreConfig = {
             fontFamily: "Courier",
             fontSize: "40px",
-            strokeThickness: 1,
-            stroke: "#000000",
             color: "#000000",
+            stroke: "#000000",
+            strokeThickness: 1,
             align: "right",
             padding: {
                 top: 8,
