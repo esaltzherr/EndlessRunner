@@ -49,7 +49,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.scene.dust.createDust(this.scene.dust.x + 15, this.scene.dust.y - 25, 'player_jump_dust', 15);
         }
 
-        // ensure jumping only happens when touching collider
+        // ensure jumping only happens when touching ground
         if(this.body.velocity.y == 0) {
             // determine whether to play running or falling animation
             if(!this.justFell) { 
