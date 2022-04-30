@@ -5,11 +5,11 @@ class Dust extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this);
         this.scale = 0.75;
         this.alpha = 0;
-        this.timer = 20;
+        this.timer = 40;
     }
 
     update() {
-        // every 20 frames, create new run dust
+        // every 40 frames, create new run dust
         this.timer -= 1;
         if(this.timer == 0) {
             if(this.scene.player.body.velocity.y == 0) { this.createDust(this.x, this.y, 'player_run_dust', 12); }
