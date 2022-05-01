@@ -20,6 +20,7 @@ class Eraser extends Phaser.Physics.Arcade.Sprite{
         this.anims.play('erase', true);
     }
     update(){
+        //this.accel += 0.001;
         this.speed += this.accel;
         this.maxspeed += 0.05;
         if(this.speed > this.maxspeed){
