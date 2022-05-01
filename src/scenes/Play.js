@@ -17,6 +17,9 @@ class Play extends Phaser.Scene {
         this.load.image('paper', './assets/paperBackground.png');
         this.load.spritesheet('pencil', './assets/pencil_3.png', { frameWidth: 572, frameHeight: 600, spacing: 212 })
         this.load.image('ground_temp', './assets/ground_temp.png');
+
+        this.load.atlas('playerAtlas', '/assets/PlayerAtlas.png', '/assets/PlayerAtlas.json');
+
         this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 });
@@ -29,6 +32,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+
         this.gameIsOver = false;
 
         //load all the words
@@ -55,8 +59,8 @@ class Play extends Phaser.Scene {
 
         // add ground and player
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
-        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 1500, 660).setOrigin(0, 0); //900, 500 // 1200, 580
-        this.dust = new Dust(this, this.player.x + 15, this.player.y + this.player.height + 30, 'player_run_dust').setOrigin(0, 0);
+        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player', 0, 1500, 660).setOrigin(0,0); //900, 500 // 1200, 580
+        this.dust = new Dust(this, this.player.x + 15, this.player.y + 72 + 32, 'player_run_dust').setOrigin(0, 0);
         this.endHitBox = this.add.sprite(game.config.width / 2 + 30, game.config.height * 0.6).setOrigin(0,0);
         this.physics.add.existing(this.endHitBox);      
 
@@ -92,6 +96,8 @@ class Play extends Phaser.Scene {
                 repeat: -1,
             });
         }
+    
+    
     }
 
     update() {

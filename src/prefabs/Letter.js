@@ -40,8 +40,7 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
         }
     }
     // generates a random float within the range min and max, including both up to .
-    getRandomInt(min, max) {
-        let places = 3;
+    getRandomInt(min, max, places = 3) {
         let value = (Math.random() * (max - min + 1)) + min;
         return Number.parseFloat(value).toFixed(places);
       }
