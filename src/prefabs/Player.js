@@ -83,6 +83,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if(Phaser.Input.Keyboard.JustDown(keySPACE) && this.body.velocity.y == 0) {
             this.jump();
             this.scene.dust.createDust(this.scene.dust.x + 15, this.scene.dust.y - 25, 'player_jump_dust', 15);
+            this.scene.sound.play('jumpSound');
         }
 
         // ensure jumping only happens when touching ground
@@ -93,6 +94,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
             else {
                 this.play('falling_squash', true);
+                this.scene.sound.play('landSound');
                 this.once('animationcomplete', () => { this.justFell = false; })
             }
         }

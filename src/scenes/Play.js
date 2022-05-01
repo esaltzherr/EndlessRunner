@@ -14,7 +14,7 @@ class Play extends Phaser.Scene {
             this.load.spritesheet(name, './assets/' + file + '.png', {frameWidth: 32, frameHeight: 32});
         }
 
-        this.load.image('paper', './assets/paperBackground.png');
+        this.load.image('paper', './assets/paperBackgroundRed.png');
         this.load.spritesheet('pencil', './assets/pencil_3.png', { frameWidth: 572, frameHeight: 600, spacing: 212 })
         this.load.image('ground_temp', './assets/ground_temp.png');
 
@@ -29,13 +29,19 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('sparkle', './assets/sparkle.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('button', './assets/attemptButton.png');
         this.load.image('score', './assets/score_box.png');
-        this.load.audio('collect', './assets/letter_collect.wav')
         this.load.text('scrabble', './assets/scrabble.txt');
+
+        this.load.audio('collect', './assets/letter_collect.wav');
+        this.load.audio('clearWord', './assets/clear_word_sound.wav');
+        this.load.audio('confirmWord', './assets/confirm_word_sound.wav');
+        this.load.audio('jumpSound', './assets/jump_sound.wav');
+        this.load.audio('landSound', './assets/land_sound.wav');
+        this.load.audio('song1', './assets/song1.mp3');
     }
 
     create() {
-
         this.gameIsOver = false;
+        this.sound.play('song1', { loop: true } );
 
         //load all the words
         this.listOfWords();
@@ -44,7 +50,6 @@ class Play extends Phaser.Scene {
         this.letterspawner = new Letterspawner(this, 1000, 200).setOrigin(0, 0);
         this.letterspawner.lettersGroup;
 
-        //this.eraser = new Eraser(this, -200, 200, 'pencil').setOrigin(0, 0);  // old pencil
         this.eraser = new Eraser(this, -500, -100, 'pencil').setOrigin(0, 0);
         this.physics.add.collider(this.eraser, this.letterspawner.lettersGroup, function (eraser, lettersGroup) {
             lettersGroup.destroy();
@@ -119,6 +124,9 @@ class Play extends Phaser.Scene {
 
     sendback(length) {
         this.eraser.speed -= length;
+        console.log(this.eraser.speed);
+        if(this.eraser.speed < -10) { this.eraser.speed = - 10; }
+        console.log(this.eraser.speed);
     }
 
     listOfWords() {
@@ -152,13 +160,13 @@ class Play extends Phaser.Scene {
     }
 
     addLetter(player, lettersGroup) {
-        this.letterParticles(lettersGroup);
+        this.collectAnim(lettersGroup);
         this.sound.play('collect')
         player.word += lettersGroup.letter;
         lettersGroup.destroy();
     }
 
-    letterParticles(lettersGroup) {
+    collectAnim(lettersGroup) {
         /*
         // OPTION 1
         let p = this.add.particles('sparkle');
