@@ -31,7 +31,6 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
     }
     submitWord(keyPressed) {
         if (keyPressed == "enter") {
-            console.log("Entered");
             if (this.checklist(this.player.word)) {
                 this.scene.sendback(this.player.word.length * this.player.word.length * 2);
                 this.player.score += this.player.word.length;
@@ -46,7 +45,6 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
             }
         }
         else if(keyPressed == "back"){
-            console.log("BACK");
             this.scene.sendback(this.player.word.length);
             this.player.word = ''
         }

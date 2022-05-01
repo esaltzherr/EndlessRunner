@@ -17,18 +17,24 @@ class Play extends Phaser.Scene {
         this.load.image('paper', './assets/paperBackground.png');
         this.load.spritesheet('pencil', './assets/pencil_3.png', { frameWidth: 572, frameHeight: 600, spacing: 212 })
         this.load.image('ground_temp', './assets/ground_temp.png');
-        this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
-        this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
-        this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 });
-        this.load.spritesheet('player_fall_squash', './assets/player_fall_squash.png', { frameWidth: 72, frameHeight: 72 });
+
+        this.load.atlas('playerAtlas', './assets/PlayerAtlas.png', './assets/PlayerAtlas.json');
+
+        // this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
+        // this.load.spritesheet('player_jump', './assets/player_jump.png', { frameWidth: 72, frameHeight: 72 });
+        // this.load.spritesheet('player_fall', './assets/player_fall.png', { frameWidth: 72, frameHeight: 72 });
+        // this.load.spritesheet('player_fall_squash', './assets/player_fall_squash.png', { frameWidth: 72, frameHeight: 72 });
         this.load.spritesheet('player_run_dust', './assets/player_run_dust.png', {frameWidth: 32, frameHeight: 32});
         this.load.spritesheet('player_jump_dust', './assets/jump_dust.png', {frameWidth: 64, frameHeight: 64});
+        this.load.spritesheet('sparkle', './assets/sparkle.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('button', './assets/attemptButton.png');
         this.load.image('score', './assets/score_box.png');
+        this.load.audio('collect', './assets/letter_collect.wav')
         this.load.text('scrabble', './assets/scrabble.txt');
     }
 
     create() {
+
         this.gameIsOver = false;
 
         //load all the words
@@ -55,15 +61,15 @@ class Play extends Phaser.Scene {
 
         // add ground and player
         this.ground = new Ground(this, 0, game.config.height * 0.8, 'ground_temp').setOrigin(0, 0);
-        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player_run', 0, 1500, 660).setOrigin(0, 0); //900, 500 // 1200, 580
-        this.dust = new Dust(this, this.player.x + 15, this.player.y + this.player.height + 30, 'player_run_dust').setOrigin(0, 0);
+        this.player = new Player(this, game.config.width / 2, game.config.height * 0.6, 'player', 0, 1500, 660).setOrigin(0,0); //900, 500 // 1200, 580
+        this.dust = new Dust(this, this.player.x + 15, this.player.y + 72 + 32, 'player_run_dust').setOrigin(0, 0);
         this.endHitBox = this.add.sprite(game.config.width / 2 + 30, game.config.height * 0.6).setOrigin(0,0);
         this.physics.add.existing(this.endHitBox);      
 
         // add colliders
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.overlap(this.endHitBox, this.eraser, this.gameOver, null, this);
-        this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter);
+        this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter, null, this);
 
         // scoreboard and attempt word
         let scoreConfig = {
@@ -92,6 +98,12 @@ class Play extends Phaser.Scene {
                 repeat: -1,
             });
         }
+
+        this.anims.create({
+            key: 'letterCollect',
+            frames: 'sparkle',
+            frameRate: 18,
+        });
     }
 
     update() {
@@ -140,7 +152,33 @@ class Play extends Phaser.Scene {
     }
 
     addLetter(player, lettersGroup) {
+        this.letterParticles(lettersGroup);
+        this.sound.play('collect')
         player.word += lettersGroup.letter;
         lettersGroup.destroy();
+    }
+
+    letterParticles(lettersGroup) {
+        /*
+        // OPTION 1
+        let p = this.add.particles('sparkle');
+        let e = p.createEmitter({
+            x: lettersGroup.x,
+            y: lettersGroup.y,
+            scale: 10,
+            speed: 200,
+            maxParticles: 2,
+            lifespan: 200
+        });
+        this.time.delayedCall(2000, () => {
+            p.destroy();
+        });
+        */
+
+        // OPTION 2
+        let p = this.add.sprite(lettersGroup.x, lettersGroup.y, 'sparkle').setOrigin(0.5, 0.5);
+        p.scale = 2;
+        p.anims.play('letterCollect');
+        p.on('animationcomplete', () => { p.destroy(); });
     }
 }
