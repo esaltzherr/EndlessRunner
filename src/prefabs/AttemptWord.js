@@ -45,7 +45,6 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
             }
         }
         else if(keyPressed == "back"){
-            console.log("BACK");
             this.scene.sendback(this.player.word.length);
             this.player.word = ''
         }
