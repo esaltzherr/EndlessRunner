@@ -20,11 +20,8 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
     init(){
         // initalize after getting added to group
         this.setVelocity(this.speed,0);
-        
-
     }
     randomletter(){
-        
         //gives a random # from 0-100.999. The % for a number to shows up all totals to about 100.077
         var randomNum = this.getRandomInt(0,100);
         for(i = 0; i < chances.length; i++){
@@ -39,6 +36,7 @@ class Letter extends Phaser.Physics.Arcade.Sprite{
             this.randomletter();
         }
     }
+    
     // generates a random float within the range min and max, including both up to .
     getRandomInt(min, max, places = 3) {
         let value = (Math.random() * (max - min + 1)) + min;
