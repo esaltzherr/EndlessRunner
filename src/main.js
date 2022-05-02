@@ -1,3 +1,5 @@
+// Wordlist from Collins Scrabble Words (2019). 279,496 words. Words only.
+
 let config = {
     type: Phaser.AUTO,
     width: 960,
@@ -14,4 +16,4 @@ let config = {
   let game = new Phaser.Game(config);
   
   // reserve keyboard vars
-  let keyF, keyR, keyLEFT, keyRIGHT, keySPACE, keyENTER, keyBACK, keyESC;
+  let keyR, keyLEFT, keyRIGHT, keySPACE, keyENTER, keyBACK, keyESC;
