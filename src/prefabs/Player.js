@@ -49,7 +49,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 prefix: "PlayerSquish",
             }),
         });
-
+        this.anims.create({
+            key: "dying",
+            frameRate: 45,
+            frames: this.anims.generateFrameNames('playerAtlas',{
+                prefix: "PlayerDie",
+                start: 0,
+                end: 26,
+            }),
+        });
 
         // this.anims.create({
         //     key: 'running',
@@ -112,7 +120,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     gameOver() {
         // erase word (might put this in reset later on)
+        this.play('dying', true);
         this.word = '';
-        this.anims.pause();
+        this.scene.eraser.gameOver();
+        this.once('animationcomplete', () => { this.anims.pause(); this.scene.eraser.anims.stop()})
+        //this.anims.pause();
     }
 }

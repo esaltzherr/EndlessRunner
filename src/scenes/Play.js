@@ -153,7 +153,7 @@ class Play extends Phaser.Scene {
         this.gameIsOver = true;
         this.letterspawner.gameOver();
         this.player.gameOver();
-        this.eraser.gameOver();
+        //this.eraser.gameOver();
         this.add.text(100, 100, "Game Over (Press R to reset | ESC for main menu)", { font: "20px Arial", fill: "#000000" });
         keyR.on('down', (key, event) => { this.scene.restart(); });
         keyESC.on('down', (key, event) => { this.scene.start('menuscene'); });
