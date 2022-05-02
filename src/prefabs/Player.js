@@ -79,7 +79,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
             else {
                 this.play('falling_squash', true);
-                this.scene.sound.play('landSound');
                 this.once('animationcomplete', () => { this.justFell = false; })
             }
         }
