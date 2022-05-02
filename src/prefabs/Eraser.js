@@ -29,7 +29,7 @@ class Eraser extends Phaser.Physics.Arcade.Sprite {
         if (this.x + this.width  < 10) {
             this.x = 10 - this.width;
             this.speed = 0;
-            console.log("End");
+            //console.log("End");
         }
         if(this.scene.player.score > 10){
             this.maxspeed += 5;
@@ -43,11 +43,12 @@ class Eraser extends Phaser.Physics.Arcade.Sprite {
 
     gameOver() {
         // move back as to not constantly trigger gameOver() in Play
-        this.x -= 1
+        this.x -= 1;
 
         // stop eraser completely
         this.speed = 0;
         this.setVelocity(0, 0);
-        this.anims.stop();
+        this.anims.play("erase", true);
+        //this.anims.stop();
     }
 }
