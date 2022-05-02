@@ -15,8 +15,6 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
         this.shakeCam.setBounds(0, 500)
         keyENTER.on('down', (key, event) => { this.submitWord('enter'); });
         keyBACK.on('down', (key, event) => { this.submitWord('back'); });
-
-        // set max velocity?
     }
 
     update() {
@@ -34,18 +32,19 @@ class AttemptWord extends Phaser.Physics.Arcade.Sprite {
     submitWord(keyPressed) {
         if (keyPressed == "enter") {
             if (this.checklist(this.player.word)) {
+                // send back eraser
                 this.scene.sendback(this.player.word.length * this.player.word.length * 2);
+
+                // add score, clear word, update scoreboard
                 this.player.score += this.player.word.length;
                 this.player.word = '';
                 this.scoreboard.text = this.player.score
-                // Correct Noise
-                // Success Animation?
                 this.scene.sound.play('confirmWord');
             }
             else {
                 // failure Noise / shake letters
                 this.shakeCam.shake(100, {x: 0.05, y: 0});
-                
+                this.scene.sound.play('notWord');
             }
         }
         else if(keyPressed == "back"){
