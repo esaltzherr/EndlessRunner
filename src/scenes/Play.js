@@ -36,7 +36,6 @@ class Play extends Phaser.Scene {
         this.load.audio('confirmWord', './assets/audio/confirm_word_sound.wav');
         this.load.audio('notWord', './assets/audio/not_a_word_sound.wav');
         this.load.audio('jumpSound', './assets/audio/jump_sound.wav');
-        this.load.audio('landSound', './assets/audio/land_sound.wav');
         this.load.audio('song1', './assets/audio/song1.mp3');
     }
 
