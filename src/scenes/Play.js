@@ -14,10 +14,16 @@ class Play extends Phaser.Scene {
             this.load.spritesheet(name, './assets/' + file + '.png', {frameWidth: 32, frameHeight: 32});
         }
 
+        // load doodles
+        this.doodleNames = ['cube', 'face', 'hearts', 'lightning1', 'lightning2', 'lightning3',
+                            'peace', 'peaker', 'skull', 'spiral'];
+        for(i = 0; i < this.doodleNames.length; i++) {
+            this.load.image(this.doodleNames[i], './assets/doodles/doodle_' + this.doodleNames[i] + '.png');
+        }
+
         this.load.image('paper', './assets/paperBackgroundRed.png');
         this.load.spritesheet('pencil', './assets/pencil_3.png', { frameWidth: 572, frameHeight: 600, spacing: 212 })
         this.load.image('ground_temp', './assets/ground_temp.png');
-
         this.load.atlas('playerAtlas', './assets/PlayerAtlas.png', './assets/PlayerAtlas.json');
 
         // this.load.spritesheet('player_run', './assets/player_run.png', { frameWidth: 72, frameHeight: 72 });
@@ -31,9 +37,11 @@ class Play extends Phaser.Scene {
         this.load.image('score', './assets/score_box.png');
         this.load.text('scrabble', './assets/scrabble.txt');
 
+        // load sounds
         this.load.audio('collect', './assets/letter_collect.wav');
         this.load.audio('clearWord', './assets/clear_word_sound.wav');
         this.load.audio('confirmWord', './assets/confirm_word_sound.wav');
+        this.load.audio('notWord', './assets/not_a_word_sound.wav');
         this.load.audio('jumpSound', './assets/jump_sound.wav');
         this.load.audio('landSound', './assets/land_sound.wav');
         this.load.audio('song1', './assets/song1.mp3');
@@ -57,6 +65,10 @@ class Play extends Phaser.Scene {
             // sound effect
         });
 
+        // create group and timer for doodles
+        this.doodleGroup = this.physics.add.group();
+        this.doodleTimer = 0;
+
         // add keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        // jump
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);        // confirm word
@@ -74,6 +86,7 @@ class Play extends Phaser.Scene {
         // add colliders
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.overlap(this.endHitBox, this.eraser, this.gameOver, null, this);
+        this.physics.add.collider(this.eraser, this.doodleGroup, () => { this.doodleGroup.destroy(); }, null, this);
         this.physics.add.collider(this.player, this.letterspawner.lettersGroup, this.addLetter, null, this);
 
         // scoreboard and attempt word
@@ -119,6 +132,12 @@ class Play extends Phaser.Scene {
             this.eraser.update();
             this.button.update();
             this.background.tilePositionX += 2.5;
+/*            
+            this.doodleTimer++;
+            if(this.doodleTimer == 20) {
+                if(Math.floor(Math.random() * 3) == 1) { this.spawnDoodles(); }
+                this.doodleTimer = 0;
+            }*/
         }
     }
 
@@ -155,8 +174,11 @@ class Play extends Phaser.Scene {
         this.player.gameOver();
         //this.eraser.gameOver();
         this.add.text(100, 100, "Game Over (Press R to reset | ESC for main menu)", { font: "20px Arial", fill: "#000000" });
-        keyR.on('down', (key, event) => { this.scene.restart(); });
         keyESC.on('down', (key, event) => { this.scene.start('menuscene'); });
+        keyR.on('down', (key, event) => { 
+            this.sound.removeAll()
+            this.scene.restart(); 
+        });
     }
 
     addLetter(player, lettersGroup) {
@@ -167,26 +189,19 @@ class Play extends Phaser.Scene {
     }
 
     collectAnim(lettersGroup) {
-        /*
-        // OPTION 1
-        let p = this.add.particles('sparkle');
-        let e = p.createEmitter({
-            x: lettersGroup.x,
-            y: lettersGroup.y,
-            scale: 10,
-            speed: 200,
-            maxParticles: 2,
-            lifespan: 200
-        });
-        this.time.delayedCall(2000, () => {
-            p.destroy();
-        });
-        */
-
-        // OPTION 2
         let p = this.add.sprite(lettersGroup.x, lettersGroup.y, 'sparkle').setOrigin(0.5, 0.5);
         p.scale = 2;
         p.anims.play('letterCollect');
         p.on('animationcomplete', () => { p.destroy(); });
+    }
+
+    spawnDoodles() {
+        let random = Math.floor(Math.random() * this.doodleNames.length);
+        let randY = Math.floor(Math.random() * this.game.config.height);
+        let doodle = this.physics.add.sprite(this.game.config.width, randY,
+                                             this.doodleNames[random]).setOrigin(0.5, 0.5);
+        doodle.alpha = 0.5;                                             
+        doodle.setVelocityX(-200);
+        this.doodleGroup.add(doodle);
     }
 }
