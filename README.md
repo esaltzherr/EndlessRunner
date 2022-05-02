@@ -13,8 +13,7 @@ Art by: Ethan Goldreyer
     in spritesheets that have similar names using a for loop, rather than loading them one by
     one.
 
-2.) How's this for the comment: From an aesthetic perspective, we committed to uniting our 
-    mechanics and art within the context of a classroom notebook. Because our game revolves 
-    around forming - or "writing" - words from a series of random letters, we intentionally 
-    lent animations a wobbly "scribbled" look, and used real paper and pencils to record 
-    sounds befitting our hand-drawn style.
+2.) From an aesthetic perspective, we committed to uniting our mechanics and art within the 
+    context of a classroom notebook. Because our game revolves around forming - or "writing" - 
+    words from a series of random letters, we intentionally lent animations a wobbly "scribbled" 
+    look, and used real paper and pencils to record sounds befitting our hand-drawn style.
