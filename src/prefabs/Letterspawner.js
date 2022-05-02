@@ -7,9 +7,7 @@ class Letterspawner extends Phaser.Physics.Arcade.Sprite {
         var heightofletters = 32;
         this.highest = 240;
         this.setY(this.highest);
-        // 432 is where the ground is
-        this.lowest = 432 - heightofletters;
-        //this.movespeed = -14.5;
+        this.lowest = 432 - heightofletters; // 432 is where the ground is
         this.startingtimer = 150;
         this.timer = this.startingtimer;
         this.lettersGroup = scene.physics.add.group();
@@ -17,12 +15,6 @@ class Letterspawner extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
-        // Go Up and Down
-        //if(this.y <= this.highest || this.y >= this.lowest){
-        //    this.movespeed *=-1;
-        //}
-        //this.y += this.movespeed;
-        // Spawn a new Letter based off of a timer
         this.timer -= 1;
         if (this.timer <= 0) {
             this.timer = this.startingtimer;

@@ -4,15 +4,18 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         scene.add.existing(this);
         this.scene = scene;
+
         // physics settings
         this.setPushable(false);
         this.body.setGravityY(gravity);
         this.jumpHeight = jumpHeight;
         this.justFell = false;
+
         // Player word and score
         this.word = '';
         this.score = 0;
         this.body.setSize(60,72,false);
+
         // Player animations
         this.anims.create({
             key: "running",
@@ -58,32 +61,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 end: 26,
             }),
         });
-
-        // this.anims.create({
-        //     key: 'running',
-        //     frames: this.anims.generateFrameNumbers('player_run', {frames: [0, 1, 2, 3, 4, 5, 6, 7]}),
-        //     repeat: -1,
-        //     frameRate: 15
-        // });
-
-        // this.anims.create({
-        //     key: 'jumping',
-        //     frames: this.anims.generateFrameNumbers('player_jump', {frames: [0, 1, 2, 3, 4]}),
-        //     frameRate: 12,
-        // });
-
-        // this.anims.create({
-        //     key: 'falling',
-        //     frames: this.anims.generateFrameNumbers('player_fall', {frames: [0, 1]}),
-        //     frameRate: 10
-        // });
-
-        // this.anims.create({
-        //     key: 'falling_squash',
-        //     frames: this.anims.generateFrameNumbers('player_fall_squash', {frames: [0]}),
-        //     frameRate: 30,
-        //     repeat: 1
-        // });
     }
 
     update() {
@@ -109,7 +86,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         else if(this.body.velocity.y > 0) {
             this.play('falling', true);
         }
-
     }
 
     jump() {
@@ -119,11 +95,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     gameOver() {
-        // erase word (might put this in reset later on)
+        // erase word and play gameover animation
         this.play('dying', true);
         this.word = '';
         this.scene.eraser.gameOver();
         this.once('animationcomplete', () => { this.anims.pause(); this.scene.eraser.anims.stop()})
-        //this.anims.pause();
     }
 }

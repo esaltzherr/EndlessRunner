@@ -9,9 +9,6 @@ class Eraser extends Phaser.Physics.Arcade.Sprite {
         this.maxspeed = 10;
         this.setVelocity(this.speed, 0);
         this.scale = 1;
-        //this.flipY = true;
-
-        // set max velocity?
 
         scene.anims.create({
             key: 'erase',
@@ -29,7 +26,6 @@ class Eraser extends Phaser.Physics.Arcade.Sprite {
         if (this.x + this.width  < 10) {
             this.x = 10 - this.width;
             this.speed = 0;
-            //console.log("End");
         }
         if(this.scene.player.score > 10){
             this.maxspeed += 5;
@@ -48,6 +44,5 @@ class Eraser extends Phaser.Physics.Arcade.Sprite {
         this.speed = 0;
         this.setVelocity(0, 0);
         this.anims.play("erase", true);
-        //this.anims.stop();
     }
 }
